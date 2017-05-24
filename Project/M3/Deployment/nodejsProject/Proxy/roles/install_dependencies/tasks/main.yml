@@ -1,0 +1,14 @@
+---
+- name: Copy the package.json file into remote server
+  copy: src=package.json dest=.
+
+- name: Install npm in the remote server
+  apt: name={{ item }} state=latest
+  with_items:
+    - npm
+    - nodejs-legacy
+
+- name: Install packages based on package.json.
+  npm:
+    path: ./
+

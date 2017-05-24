@@ -1,0 +1,20 @@
+---
+
+- name: Start Tomcat
+  shell: nohup sudo /home/vagrant/code/apache-tomcat-8.0.41/bin/startup.sh start
+
+- name: Build iTrust
+  command: chdir=/home/vagrant/code/itrust/iTrust mvn clean package
+
+- name: Copy Generated WAR file to tomcat apache
+  copy:
+    remote_src: true
+    src: "/home/vagrant/code/itrust/iTrust/target/iTrust-23.0.0.war"
+    dest: "/home/vagrant/code/apache-tomcat-8.0.41/webapps/iTrust.war"
+
+- name: Shutting Down Tomcat
+  shell: nohup sudo /home/vagrant/code/apache-tomcat-8.0.41/bin/shutdown.sh start
+
+- name: ReStarting Tomcat
+  shell: nohup sudo /home/vagrant/code/apache-tomcat-8.0.41/bin/startup.sh start
+

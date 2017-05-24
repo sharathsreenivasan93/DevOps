@@ -1,0 +1,13 @@
+[itrust-server]
+52.23.165.137 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.173.183.75 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.208.214.142 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+34.204.14.210 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.88.97.20 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+34.204.107.71 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.172.46.95 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+34.201.63.32 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.145.200.158 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.86.116.225 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.163.71.211 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem
+54.172.100.50 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keypair.pem

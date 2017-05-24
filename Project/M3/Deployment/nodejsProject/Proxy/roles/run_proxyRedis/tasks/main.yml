@@ -1,0 +1,15 @@
+---
+- name: Copy proxyRedis.js file into remote server
+  copy: src=proxyRedis.js dest=.
+
+- name: Copy ip text files to remote machine
+  copy: src={{ item }} dest=.
+  with_items: 
+    - prodIp.txt 
+    - canaryIp.txt
+
+- name: Install forever globally
+  command: sudo npm install forever --global 
+
+- name: Start proxy server
+  command: sudo forever start -o out.log -e err.log proxyRedis.js

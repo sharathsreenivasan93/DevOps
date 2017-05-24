@@ -1,0 +1,93 @@
+---
+
+- name: Update APT package cache
+  become: yes
+  action: apt update_cache=yes
+
+- name: Install Maven
+  become: yes
+  apt: pkg=maven state=latest
+
+- name: Update APT package cache
+  become: yes
+  action: apt update_cache=yes
+
+- name: Install Run time Packages for Server
+  apt: pkg="{{item}}" state=present
+  become: yes
+  with_items: "{{packages}}"
+
+
+# - name: Installing Prerequisites for Java 8
+#   apt: name=python-software-properties
+#   become: yes
+
+# - name: Ensuring Repository for Java 8
+#   apt_repository: repo='ppa:webupd8team/java'
+#   become: yes
+
+# - name: Oracle Liscence Agreement
+#   debconf: name=oracle-java8-installer question=shared/accepted-oracle-license-v1-1 vtype=select value=true
+#   become: yes
+
+# - name: Install Java 8
+#   apt: name=oracle-java8-installer force=yes
+#   become: yes
+
+
+- name: Install Java Jdk repo
+  apt_repository: repo='ppa:openjdk-r/ppa'
+  become: yes
+
+- name: Update APT package cache
+  become: yes
+  action: apt update_cache=yes
+
+- name: Install JDK 1.8.0
+  become: yes
+  apt: name=openjdk-8-jdk
+
+
+- name: Install MySQL Package
+  become: yes
+  apt: pkg=mariadb-server state=latest
+
+- name: Enable MySQL
+  become: yes
+  service: name={{ item }} state=started enabled=yes
+  tags: packages
+  with_items:
+    - "{{ mysql_service }}"
+
+- name: Stop MySQL
+  shell: nohup sudo service mysql stop 
+
+- name: Copy mysql conf
+  sudo: yes 
+  template:
+    src: ../../../config/my.cnf
+    dest: /etc/mysql/ 
+
+- name: Start MySQL
+  shell: nohup sudo service mysql start 
+
+- name: DOwnload Tomcat
+  get_url:
+    url: https://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.41/bin/apache-tomcat-8.0.41.tar.gz
+    dest: /home/vagrant/apache-tomcat-8.0.41.tar.gz
+
+- name: Extract TomCat
+  unarchive: >
+    src=/home/vagrant/apache-tomcat-8.0.41.tar.gz
+    dest=/home/vagrant copy=no
+
+- name: Download JDBC Connector
+  unarchive: >
+    src={{ jdbc_url }}
+    dest=/home/vagrant copy=no
+
+- name: Install JDBC Connector to Tomcat
+  copy:
+    remote_src: true
+    src: "/home/vagrant/mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar"
+    dest: "/home/vagrant/apache-tomcat-8.0.41/lib/mysql-connector-java-5.1.38-bin.jar"
