@@ -1,0 +1,71 @@
+---
+- hosts: checkboxio  
+  become: yes
+  become_user: root
+  vars: 
+    dependencies: 
+          - 'git'
+          - 'nodejs-legacy'
+          - 'npm'
+          - 'mongodb'
+          - 'python-pip'
+          - 'nginx'
+  environment:
+    MONGOUSER: "{{lookup('env', 'MONGOUSER')}}"
+    MONGOPWD: "{{lookup('env', 'MONGOPWD')}}"
+    SMTPEMAIL: "{{lookup('env', 'SMTPEMAIL')}}"
+    SMTPPWD: "{{lookup('env', 'SMTPPWD')}}"
+
+  tasks:   
+    - name: apt update
+      become_user: root
+      command: sudo apt-get update
+
+    - name: Install dependencies
+      apt: name={{ item }} state=present
+      with_items: "{{ dependencies }}"
+
+    - name: Install the latest pymongo package
+      pip: name=pymongo state=latest use_mirrors=no
+
+    - name: Clone submission repository
+      git: repo=https://{{lookup('env','GITUSER')}}:{{ lookup('env','GITPWD')}}@github.ncsu.edu/akpatil/CSC519-Project.git dest=checkboxio/.
+
+    - name: Create user
+      mongodb_user:
+        database: admin
+        name: "{{lookup('env', 'MONGOUSER')}}"
+        password: "{{lookup('env', 'MONGOPWD')}}"
+        state: present
+
+    - name: Copy nginx config file
+      become: yes
+      command: cp checkboxio/M1/nodejsProject/checkbox.io/local-conf/nginx.conf /etc/nginx/nginx.conf
+
+    - name: Copy nginx default file
+      become: yes
+      command: cp checkboxio/M1/nodejsProject/checkbox.io/local-conf/default /etc/nginx/sites-enabled/default
+
+    - name: Restarting ninx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: npm install
+      command: chdir=checkboxio/M1/nodejsProject/checkbox.io/server-side/site npm install
+
+    - name: Install forever
+      npm: name=forever global=yes state=present
+
+    - name: Check list of nodejs apps running
+      command: forever list
+      register: forever_list
+      changed_when: false
+
+    - name: Start checkboxio app
+      command: forever start -o out.log -e err.log  server.js
+      args:
+        chdir: checkboxio/M1/nodejsProject/checkbox.io/server-side/site/
+      when: "forever_list.stdout.find('checkboxio/M1/nodejsProject/checkbox.io/server-side/site/server.js') == -1"
+
+

@@ -1,0 +1,16 @@
+---
+# This playbook deploys jenkins server and runs checkbox.io application
+
+- name: Install and configure jenkins and run checkbox.io application
+  hosts: nodes
+  become: yes
+  become_user: root
+  remote_user: root
+  environment:
+    MONGOUSER: "{{lookup('env', 'MONGOUSER')}}"
+    MONGOPWD: "{{lookup('env', 'MONGOPWD')}}"
+    SMTPEMAIL: "{{lookup('env', 'SMTPEMAIL')}}"
+    SMTPPWD: "{{lookup('env', 'SMTPPWD')}}"
+  roles:
+    - deploy_jenkins
+    - deploy_checkbox
