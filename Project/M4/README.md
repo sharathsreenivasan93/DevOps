@@ -24,7 +24,7 @@ The Monkey monitors the redis proxy server to analyse the distribution of servic
 
 ## Architecture of Ultra Monkey 
 
-![alt tag](https://github.ncsu.edu/akpatil/CSC519-Project/blob/M4/Ultrabot%20Arch.png)
+![alt tag](Ultrabot%20Arch.png)
 
 ## Steps for running Ultra Monkey
 
