@@ -72,7 +72,7 @@
   ```
   
 
-##WORK SPLIT
+## WORK SPLIT
 
 * Build Jobs and Jenkins setup - Aparna, Shreya
 * Test suites, coverage, and test results - Aparna, Shreya
@@ -80,7 +80,7 @@
 * Uselesss test detector - Keshav, Sharath
 * Analysis and build failure - Aparna, Shreya
 
-##SCREENCAST
+## SCREENCAST
 
 | Branch         	| Description 	| Screencast 	|
 |--------------	|----------	|----------	|
