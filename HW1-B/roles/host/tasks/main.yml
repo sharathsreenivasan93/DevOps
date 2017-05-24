@@ -1,0 +1,7 @@
+  - name: Installing run time packages for host
+    apt: pkg="{{item}}" state=present
+    become: yes
+    with_items: "{{packages}}"
+  - pip:
+      name: lxml
+    become: yes

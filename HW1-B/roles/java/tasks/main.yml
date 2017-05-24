@@ -1,0 +1,30 @@
+---
+    - name: Installing run time packages
+      apt: pkg="{{item}}" state=present
+      become: yes
+      with_items: "{{packages}}"
+
+    - name: Installing Java 8 prerequisites
+      apt: name=python-software-properties
+      become: yes
+
+    - name: Adding Java 8 repository
+      apt_repository: repo='ppa:webupd8team/java'
+      become: yes
+
+    - name: Agreeing to Oracle license
+      debconf: name=oracle-java8-installer question=shared/accepted-oracle-license-v1-1 vtype=select value=true
+      become: yes
+
+    - name: Installing Java 8
+      apt: name=oracle-java8-installer force=yes
+      become: yes
+
+    - name: Updating APT package cache
+      become: yes
+      action: apt update_cache=yes
+
+    - name: Installing maven manager
+      become: yes
+      apt: pkg=maven state=present
+

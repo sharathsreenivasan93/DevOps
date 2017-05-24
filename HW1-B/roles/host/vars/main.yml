@@ -1,0 +1,9 @@
+packages:
+     - python-pip
+     - gcc
+     - python-setuptools
+     - git-core
+     - python-lxml
+     - debconf-utils     
+     - libxml2-dev
+     - libxslt-dev
