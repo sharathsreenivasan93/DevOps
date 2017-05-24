@@ -1,0 +1,24 @@
+{
+  "name": "queue",
+  "version": "0.0.0",
+  "description": "redis playground",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.12.3",
+    "multer": "^0.1.8",
+    "redis": "^0.12.1",
+    "os": "",
+    "aws-sdk": "2.2.1",
+    "request": ""
+  },
+  "dependencies": {
+    "forever": "^0.15.3",
+    "http-proxy": "^1.16.2",
+    "tcp-port-used": "^0.1.2"
+  }
+}

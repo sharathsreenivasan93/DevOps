@@ -1,0 +1,13 @@
+---
+# This playbook installs and configures Proxy server and Redis server on remote node
+
+- name: Installs and configures Proxy server and Redis server on remote node
+  hosts: Proxy-Redis
+  become: yes
+  become_user: root
+  remote_user: root
+  gather_facts: no
+  roles:
+    - install_redis
+    - install_dependencies
+    - run_bot

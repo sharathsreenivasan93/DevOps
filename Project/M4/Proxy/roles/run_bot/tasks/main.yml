@@ -1,0 +1,43 @@
+---
+- name: Install forever globally
+  command: sudo npm install forever --global 
+
+- name: Clone repo
+  git: repo=https://{{lookup('env','gituser')}}:{{ lookup('env','gitpwd')}}@github.ncsu.edu/akpatil/CSC519-Project.git dest=tool/. version=M4
+
+- name: Copy ip text files to remote machine
+  copy: src={{ item }} dest=./tool/Proxy/
+  with_items: 
+    - proxyIp.txt 
+
+- name: Clone submission repository
+  git: repo=https://github.com/AppyDev/production.git dest=./tool/Deploy/production/. 
+
+- name: npm install
+  command: sudo npm install
+  args:
+    chdir: tool/
+
+- name: Add env variables
+  remote_user: root
+  sudo: true
+  sudo_user: root
+  lineinfile:
+    dest: ~/.bashrc
+    line: "{{ item }}"
+  with_items:
+    - "export ALTCODETOKEN=\"{{ lookup('env', 'ALTCODETOKEN') }}\""
+    - "export AWS_ACCESS_KEY=\"{{ lookup('env', 'AWS_ACCESS_KEY') }}\""
+    - "export AWS_SECRET_KEY=\"{{ lookup('env', 'AWS_SECRET_KEY') }}\""
+
+
+- name: Source bashrc
+  remote_user: root
+  sudo: true
+  sudo_user: root
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash
+
+
+

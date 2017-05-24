@@ -1,0 +1,11 @@
+---
+# This playbook deploys jenkins server and runs checkbox.io application
+
+- name: Install and configure jenkins and run checkbox.io application
+  hosts: nodes
+  gather_facts: False
+  become: yes
+  become_user: root
+  remote_user: root
+  roles:
+    - deploy_jenkins

@@ -1,0 +1,26 @@
+---
+- name: install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Update all the packages
+  shell: apt-get update
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Install the package "redis-server"
+  apt:
+    name: redis-server
+    state: present
+
+- name: Delete bind line in redis.conf file
+  lineinfile: dest=/etc/redis/redis.conf
+              state=absent
+              regexp='bind 127.0.0.1'
+
+- name: Restart the redis-server service
+  service:
+    name: redis-server
+    state: restarted
+
