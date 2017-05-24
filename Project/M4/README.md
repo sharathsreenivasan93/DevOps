@@ -53,3 +53,6 @@ The Monkey monitors the redis proxy server to analyse the distribution of servic
         @monkeybusiness Spin
  This command will create a new AWS instance and deploy the latest version of checkbox.io in it. And the load balancer will continue to delegate the requests to all the available stable production servers. If load increases above the set threshold on any of the servers then new instance will automatically spinned up. In case of any error on the available server, notification will be sent to the slack channel.
                
+# SCREENCAST
+
+https://youtu.be/gQisWiWzXyk
