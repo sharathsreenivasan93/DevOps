@@ -1,5 +1,5 @@
 
-##REPORT
+## REPORT
 
 ### Steps to run iTrust
 
@@ -92,4 +92,4 @@
 ##Extra Bonus:
 100 test that fail from fuzzing
 
-![Extra Bonus](https://github.ncsu.edu/akpatil/CSC519-Project/blob/master/M2/M2_Extra_Bonus.jpeg)
+![Extra Bonus](M2_Extra_Bonus.jpeg)
