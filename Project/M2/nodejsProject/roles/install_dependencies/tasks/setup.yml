@@ -1,0 +1,14 @@
+---
+    - name: Install required packages for build in the VM 
+      apt: name={{ item }} state=present
+      with_items:
+       - maven
+       - git
+
+    - name: apt update
+      become_user: root
+      command: sudo apt-get update
+
+    - name: Install dependencies
+      apt: name={{ item }} state=present
+      with_items: "{{ dependencies }}"

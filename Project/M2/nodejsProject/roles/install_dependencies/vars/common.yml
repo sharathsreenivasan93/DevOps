@@ -1,0 +1,7 @@
+dependencies: 
+          - 'git'
+          - 'nodejs-legacy'
+          - 'npm'
+          - 'mongodb'
+          - 'python-pip'
+          - 'nginx'

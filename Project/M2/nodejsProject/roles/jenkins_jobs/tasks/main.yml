@@ -1,0 +1,48 @@
+---
+# - name: create CSRF token
+#   shell: curl http://localhost:8090/crumbIssuer/api/xml?xpath=concat\(//crumbRequestField,%22:%22,//crumb\) 
+#   register: CRUMB
+
+- name: Create Jenkins CLI destination directory
+  file:
+    path: "/opt/jenkins" 
+    state: directory
+
+- name: Get Jenkins CLI
+  get_url:
+    url: "http://192.168.33.10:8090/jnlpJars/jenkins-cli.jar"
+    dest: "/opt/jenkins/jenkins-cli.jar"
+    mode: 0440
+  register: jenkins_local_cli
+  until: "'OK' in jenkins_local_cli.msg or 'file already exists' in jenkins_local_cli.msg"
+  retries: 5
+  delay: 10   
+
+- name: Copy job config file
+  template:
+    src: ./jobConfig/config.xml
+    dest: /home/vagrant 
+
+- name: Wait untils Jenkins web API is available
+  shell: curl --head --silent http://192.168.33.10:8090/cli/
+  register: result
+  until: result.stdout.find("200 OK") != -1
+  retries: 12
+  delay: 5
+
+- name: Create job
+  sudo: yes
+  shell: "java -jar /opt/jenkins/jenkins-cli.jar -s http://192.168.33.10:8090/ create-job checkboxio < config.xml"
+
+- name: Wait for 8090 port to open
+  wait_for:
+    port: 8090
+    delay: 25
+
+- name: Build job
+  sudo: yes
+  shell: "java -jar /opt/jenkins/jenkins-cli.jar -s http://192.168.33.10:8090/ build checkboxio -s -v"
+  register: build_result
+
+- name: Print build result
+  debug: var=build_result.stdout_lines

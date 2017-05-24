@@ -1,0 +1,5 @@
+[nodes]
+192.168.33.77 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/i2.key
+
+
+## ensure keys/i2.key exists

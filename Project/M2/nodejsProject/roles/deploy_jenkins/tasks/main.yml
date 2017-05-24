@@ -1,0 +1,112 @@
+---
+    - name: Downloading jenkins public key
+      get_url: 
+        url: https://pkg.jenkins.io/debian/jenkins-ci.org.key 
+        dest: ./server_key 
+
+    - name: Adding this key to apt-get keys
+      command: apt-key add server_key
+
+    - name: Update all the packages
+      apt: 
+        upgrade: dist 
+
+    - name: Installed latest versions of dependencies for Java 8
+      apt: name={{ item }} state=latest update_cache=yes
+      with_items:
+        - python-software-properties
+
+    - name: Add Java repository to sources
+      action: apt_repository repo='ppa:webupd8team/java'
+
+    - name: Enable auto acceptance license for Java
+      action: shell echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+
+    - name: Update APT package cache
+      action: apt update_cache=yes
+
+    - name: Install Java 8
+      action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
+
+    - name: Set Java 8 Env
+      action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
+
+    - name: Add Jenkins repo to sources
+      action: apt_repository repo="deb https://pkg.jenkins.io/debian binary/" 
+
+    - name: Install jenkins package
+      action: apt pkg=jenkins state=latest install_recommends=yes
+
+    - name: Wait for initial admin password file to get created
+      wait_for:
+        path: /var/lib/jenkins/secrets/initialAdminPassword
+
+    - name: Change the HTTP port for jenkins server 
+      copy:
+        src: ./jenkins
+        dest: /etc/default/.
+
+    - name: Restart the Jenkins service
+      service:
+        name: jenkins
+        state: restarted
+
+    - name: Stop the jenkins server
+      service:
+        name: jenkins
+        state: stopped
+
+    - name: Disable security of jenkins server
+      copy:
+        src: ./jenkinsConfig/config.xml
+        dest: /var/lib/jenkins/.
+
+    - name: Start jenkins server
+      service:
+        name: jenkins
+        state: started
+
+    - name: Install pre-requisite packages 
+      apt: name={{ item }} state=present
+      with_items:
+       - python-jenkins
+       - libxml2-dev 
+       - libxslt-dev 
+       - python-dev
+       - python3-lxml
+       - python-pip
+
+    - name: Wait for jenkins to come up
+      uri:
+        url: "http://192.168.33.10:8090/"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 1
+
+    - name: Install required plugins in jenkins
+      get_url:
+        url: http://updates.jenkins-ci.org/latest/{{ item }}.hpi
+        dest: /var/lib/jenkins/plugins/
+      with_items: 
+        - javadoc
+        - structs
+        - junit
+        - display-url-api
+        - mailer
+        - workflow-step-api
+        - workflow-scm-step
+        - credentials
+        - script-security
+        - matrix-project
+        - scm-api
+        - ssh-credentials
+        - maven-plugin
+        - git-client
+        - git
+
+    - name: Restart the Jenkins service
+      service:
+        name: jenkins
+        state: restarted
