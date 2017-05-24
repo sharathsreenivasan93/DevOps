@@ -1,0 +1,17 @@
+---
+# This playbook installs iTrust on a node
+
+# Gather variables
+- include_vars: "{{ item }}"
+  with_first_found:
+#    - "../vars/{{ ansible_distribution }}.yml"
+    - "../vars/{{ ansible_os_family }}.yml"
+    - "../vars/default.yml"
+- include_vars: "../vars/common.yml"
+
+# Start the setup process
+- include: deploy_jenkins.yml
+- include: prerequisites.yml
+- include: clone_project.yml
+- include: install_packages.yml
+- include: jenkins_job.yml
