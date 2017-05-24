@@ -1,0 +1,9 @@
+eclipse_binary: eclipse
+eclipse_package: eclipse-platform
+eclipse_version: juno
+git_package: git
+jdk_package: openjdk-8-jdk
+maven_package: maven
+mysql_package: mariadb-server
+mysql_service: mysql
+tomcat_package: tomcat

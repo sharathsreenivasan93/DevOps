@@ -1,0 +1,10 @@
+selinux_python_package: libselinux-python
+
+eclipse_binary: eclipse
+eclipse_package: eclipse-platform
+git_package: git
+jdk_package: java-1.8.0-openjdk
+maven_package: maven
+mysql_package: mariadb-server
+mysql_service: mariadb
+tomcat_package: tomcat

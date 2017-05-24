@@ -1,0 +1,9 @@
+---
+
+- name: Create code directory
+  file: path={{ code_directory }} state=directory
+ 
+
+- name: Clone iTrust repository
+  git: repo=https://{{lookup('env','gituser')}}:{{ lookup('env', 'gitpwd' )}}@github.ncsu.edu/engr-csc326-staff/iTrust-v23 dest=code/itrust
+        
