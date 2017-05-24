@@ -1,11 +1,11 @@
 # CSC519HW1-B
 
-##CONFIGURING SERVERS
+## CONFIGURING SERVERS
 
 Command to run ansible playbook
 - ansible-playbook jenkins_new.yml -i inventory
 
-##CONCEPTS
+## CONCEPTS
 
 
 1.
@@ -39,6 +39,6 @@ Barriers to applying Continuous Integration
 - Lack of tool integration
 - Involves setting up of additional CI Servers or Services
 
-##SCREENCAST
+## SCREENCAST
 
 https://youtu.be/yDlAe1hpspo
