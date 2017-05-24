@@ -1,0 +1,16 @@
+1.
+localhost:8081/set/sharath
+in 10 seconds localhost/get
+
+2. localhost:8081/recent
+
+3. curl -F "image=@./img/tiger.jpg" localhost:3000/upload
+   localhost:8081/meow
+
+4. localhost:8081/spawn - 3 to 4 times
+   localhost:8081/listservers
+   localhost:8081/destroy
+
+5. spawn multiple servers using localhost:8081/spawn
+   run localhost:8081/recent. check the terminal
+
