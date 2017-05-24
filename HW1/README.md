@@ -1,15 +1,15 @@
 # CSC519HW1
 
-###SHARATH SREENIVASAN. STUDENT ID - 200109355
+### SHARATH SREENIVASAN. STUDENT ID - 200109355
 
-##REQUIREMENTS
+## REQUIREMENTS
 
 1. npm, node should be installed in host machine
 2. User should have an account in DigitalOcean and Amazon AWS
 3. User should also have SSH Key for DigitalOcean
 4. User should have the AWS Access Key and AWS Secret Key
 
-##STEPS
+## STEPS
 
 1. Clone the repository
 2. Install the dependencies - npm install
@@ -77,6 +77,6 @@ Consequences of not having proper Configuration Management
 - Redoing implementation because you implemented to meet the requirements that had changed and was not communicated to all parties.
 - Figuring out which system components to change when the requirements change.
 
-##SCREENCAST
+## SCREENCAST
 
 Link for screencast - https://youtu.be/Iralgx8AR68
